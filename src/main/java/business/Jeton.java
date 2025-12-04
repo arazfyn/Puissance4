@@ -1,7 +1,8 @@
 package business;
 
 public class Jeton {
-    Couleur couleur;
+
+    public Couleur couleur;
 
     public Jeton(Couleur couleur) {
         this.couleur = couleur;
