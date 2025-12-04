@@ -12,7 +12,6 @@ public class Partie {
 
     public Partie() {
         this.grille = new Grille();
-
     }
 
 }
