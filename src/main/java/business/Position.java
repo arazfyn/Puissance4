@@ -6,10 +6,14 @@ public class Position {
     private int colonne;
 
     public Position(int abs, int ord) {
+
+        if (ligne < 0 || colonne < 0) {
+            throw new IllegalArgumentException("Postion Invalid(pas de valeur négative pour la position.)");
+        }
         // abs = colonne
-        this.ligne = abs;
+        this.ligne = ord;
         // ord = ligne
-        this.colonne = ord;
+        this.colonne = abs;
     }
 
     public int getAbs() {
