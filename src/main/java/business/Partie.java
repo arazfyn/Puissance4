@@ -45,7 +45,7 @@ public class Partie {
     public Joueur getGagnant() {
         return this.gagnant;
     }
-    public boolean isParAbandon() {
+    public boolean isParAbandon(boolean parAbandon) {
         return parAbandon;
     }
 
@@ -67,7 +67,7 @@ public class Partie {
         if (this.joueurCourant == this.joueurs[0]) {
             this.joueurCourant = this.joueurs[1];
         } else {
-            this.joueurCourant = this.joueurs[0]
+            this.joueurCourant = this.joueurs[0];
         }
     }
 }
