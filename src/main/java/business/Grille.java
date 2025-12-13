@@ -1,80 +1,115 @@
 package business;
 
-public class Grille {
+/**
+ * Représente la grille de jeu Puissance 4 (NB_LIGNES x NB_COLONNES).
+ */
 
+public class Grille {
+    /**
+     * On utilise les attributs de Config.java pour définir le nombre de lignes et de colonnes dans la grille.
+    */
     public static final int NB_LIGNES = Config.NB_LIGNES;
     public static final int NB_COLONNES = Config.NB_COLONNES;
-    private Jeton[][] plateauJetons;
+    
+    private final Jeton[][] plateauJetons;
 
 
-    //Constructeur pas défault : grille vide.
+    /**
+     * Constructeur par défaut = crée une grille vide.
+     */
     public Grille() {
         this.plateauJetons = new Jeton[NB_LIGNES][NB_COLONNES];
     }
 
 
-    // Ce constructeur ne sera utilisé que pour les tests.
-    //Il initialise la grille avec le tableau passé en paramètre.
+    /**
+     * Ce constructeur ne sera utilisé que pour les tests. Il initialise la grille avec le tableau passé en paramètre.
+     * @param plateauJetons tableau des jetons à utiliser
+     * @throws Puissance4Exception si le tableau est null ou si ses dimensions ne sont pas celle données dans Config
+     */
 
     public Grille (Jeton [][] plateauJetons) {
+        if (plateauJetons == null
+                || plateauJetons.length != NB_LIGNES
+                || plateauJetons[0] == null
+                || plateauJetons[0].length != NB_COLONNES) {
+            throw new Puissance4Exception("Grille invalide, mauvaise dimension.");
+        }
+
         this.plateauJetons = plateauJetons;
     }
 
-    // Vérifie que position est bien contenu dans les limites du tableau. Crée pour getJeton.
-    private boolean isPositionValide(Position p) {
-        return (p.getOrd() >= 0 && p.getOrd() < NB_LIGNES && p.getAbs() >= 0 && p.getAbs() < NB_COLONNES);
-    }
-
-    public Jeton getJeton(Position position) {
-        // position == null car si l'objet n'existe le programme crash. -> IllegalArgumentException
-        if (position == null || !isPositionValide(position)) {
-            throw new IllegalArgumentException("Postion invalide, hors de la grille.");
+    /**
+     * Vérifie si position est dans les bornes de la grille.
+     * @param p position à tester
+     * @throws IllegalArgumentException c < 0 || c >= NB_COLONNES || l < 0 || l > NB_LIGNES
+     */
+    public static void checkPositionDansGrille(Position p) {
+        if (p == null) {
+            throw new IllegalArgumentException("Position invalide :  Jeton null.");
         }
-
-        int y = position.getOrd(); // n° ligne
-        int x = position.getAbs(); // n° colonne
-
-        return plateauJetons[y][x]; // null si la case est vide.
+        int l = p.getLigne();
+        int c = p.getColonne();
+        if(l < 0 || l >= NB_LIGNES || c < 0 || c >= NB_COLONNES) {
+            throw new IllegalArgumentException("Position hors de la grille. Colonne :" + c +"0 < colonne < " + NB_COLONNES +
+                    "Ligne :"+ l +"0 < ligne < "+NB_LIGNES);
+        }
     }
 
+    /**
+     * Retourne la position de jeton , null si la case est vide.
+     * @param position la position tester
+     * @return renvoi le Jeton de la position tester
+     */
+    public Jeton getJeton(Position position) {
+        checkPositionDansGrille(position);
+        return plateauJetons[position.getLigne()][position.getColonne()]; // null si la case est vide.
+    }
+
+    /**
+     * @param numColonne la colonne tester
+     * @return true si la colonne est pleine.
+     * @throws IllegalArgumentException si numColonne est hors bornes
+     */
     public boolean isFullColonne(int numColonne) {
         if (numColonne < 0 || numColonne >= NB_COLONNES) {
-            throw new IllegalArgumentException("La colonne " + numColonne + " est invalide.");
+            throw new IllegalArgumentException("La colonne est invalide : "+ numColonne);
         }
-        // [0] car on regarde le haut du tableau.
         return plateauJetons[0][numColonne] != null;
     }
 
-
+    /**
+     * Insère le jeton dans la colonne indiquée, dans la case libre la plus basse
+     * @param jeton
+     * @param numColonne
+     * @return
+     */
     public int insererJeton(Jeton jeton, int numColonne) {
-        // Colonne valide ?
         if (numColonne < 0 || numColonne > NB_COLONNES) {
-            throw new IllegalArgumentException("La colonne " + numColonne +" est invalide");
+            throw new IllegalArgumentException("La colonne est invalide: "+ numColonne);
         }
-        // Colonne pleine ?
         if (isFullColonne(numColonne)) {
             throw new Puissance4Exception("La colonne " + numColonne + " est pleine.");
         }
-        // On cherche la position la plus basse dans la colonne.
-        // On commence par le bas.
-        int ligneInsertion = -1; // Dernier index
+        if (jeton == null) {
+            throw new IllegalArgumentException("Jeton null interdit");
+        }
         for (int i = NB_LIGNES - 1; i >= 0; i--) {
             if (plateauJetons[i][numColonne] == null) {
-                ligneInsertion = i;
-                break;
+                plateauJetons[i][numColonne] = jeton;
+                return i;
             }
         }
-        //Insertion du jeton à la position libre
-        plateauJetons[ligneInsertion][numColonne] = jeton;
-        // return l'index de la ligne du jeton inseré.
-        return ligneInsertion;
+        throw new Puissance4Exception("Insertion impossible : colonne pleine.");
     }
 
-    //Remplie ? oui = vrai , non = faux.
+    /**
+     * On test la ligne 0 car si elle est pleine => toute la grille l'est.
+     * @return true si toute le grille est remplie; false sinon
+     */
     public boolean isFullGrille() {
-        //Parcours la 1 ligne du tableau
+
         for (int j = 0; j < NB_COLONNES; j++){
-            // Si null => tableau pas rempli
             if (plateauJetons[0][j] == null) {
                 return false;
             }

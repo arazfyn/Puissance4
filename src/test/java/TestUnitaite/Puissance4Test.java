@@ -1,4 +1,4 @@
-import business.*;
+package TestUnitaite;
 
 public class Puissance4Test {
 }

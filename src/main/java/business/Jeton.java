@@ -1,14 +1,36 @@
 package business;
 
+/**
+ * Un Jeton possède un attribut couleur de type Couleur.
+ * Un Jeton ne change pas → immuable
+ */
+
 public class Jeton {
 
-    public Couleur couleur;
+    private final Couleur couleur;
 
+    /**
+     * Crée un jeton de la couleur indiquée.
+     * @param couleur couleur du jeton.
+     */
     public Jeton(Couleur couleur) {
         this.couleur = couleur;
     }
+
+    /**
+     *
+     * @return la couleur de ce jeton.
+     */
+    public Couleur getcouleur() {
+        return couleur;
+    }
+
+    /**
+     * Redéfinition de la classe toString
+     * @return couleur renvoi la couleur du jeton
+     */
     @Override
     public String toString() {
-        return "Jeton : " + this.couleur;
+        return "Jeton : " + couleur;
     }
 }
