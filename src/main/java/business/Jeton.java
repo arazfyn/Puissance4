@@ -21,7 +21,7 @@ public class Jeton {
      *
      * @return la couleur de ce jeton.
      */
-    public Couleur getcouleur() {
+    public Couleur getCouleur() {
         return couleur;
     }
 

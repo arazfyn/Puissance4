@@ -61,17 +61,4 @@ public class Position {
         Position that = (Position) o;
         return this.ligne == that.ligne && this.colonne == that.colonne;
     }
-
-    /**
-     * Si deux objets sont égaux selon equals,
-     * ils doivent retourner le même hashCode.
-     * @return result un hashCode
-     */
-    @Override
-    public int hashCode() {
-        int result = Integer.hashCode(ligne);
-        result = 31 * result + Integer.hashCode(colonne);
-        return result;
-    }
-
 }

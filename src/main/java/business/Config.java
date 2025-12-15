@@ -11,6 +11,10 @@ package business;
 public final class Config {
     public static final int NB_LIGNES = 6;
     public static final int NB_COLONNES = 7;
+
+    /**
+     * Constructeur vide pour que config ne soit en aucun cas modifiable.
+     */
     private Config() {
     }
 }
