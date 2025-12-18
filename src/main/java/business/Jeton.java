@@ -1,11 +1,13 @@
 package business;
 
+import java.io.Serializable;
+
 /**
  * Un Jeton possède un attribut couleur de type Couleur.
  * Un Jeton ne change pas → immuable
  */
 
-public class Jeton {
+public class Jeton implements Serializable {
 
     private final Couleur couleur;
 

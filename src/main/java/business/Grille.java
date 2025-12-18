@@ -1,11 +1,12 @@
 package business;
 
+import java.io.Serializable;
 
 /**
  * Représente la grille de jeu Puissance 4 (NB_LIGNES x NB_COLONNES).
  */
 
-public class Grille {
+public class Grille implements Serializable {
     /**
      * On utilise les attributs de Config.java pour définir le nombre de lignes et de colonnes dans la grille.
      */
@@ -138,9 +139,9 @@ public class Grille {
      * @throws IllegalArgumentException si position hors limite de la grille.
      */
     public boolean alignementRealise(Position position) {
+        checkPositionDansGrille(position);
         int ligne = position.getLigne();
         int colonne = position.getColonne();
-        checkPositionDansGrille(position);
 
         if (plateauJetons[ligne][colonne] == null) {
             return false;
@@ -156,9 +157,11 @@ public class Grille {
      * @throws IllegalArgumentException si la position est hors limite.
      */
     public int alignementHorizontal(Position position) {
+
+        checkPositionDansGrille(position);
         int ligne = position.getLigne();
         int colonne = position.getColonne();
-        checkPositionDansGrille(position);
+
 
         Jeton centre = plateauJetons[ligne][colonne];
         if (centre == null) return 0;
@@ -201,9 +204,11 @@ public class Grille {
      * @throws IllegalArgumentException si la position est hors limite de la grille.
      */
     public int alignementVertical(Position position) {
+
+        checkPositionDansGrille(position);
         int ligne = position.getLigne();
         int colonne = position.getColonne();
-        checkPositionDansGrille(position);
+
 
         Jeton centre = plateauJetons[ligne][colonne];
         if (centre == null) return 0;
@@ -245,9 +250,11 @@ public class Grille {
      * @throws IllegalArgumentException si la position est hors limite de la grille.
      */
     public int alignementDiagonal1(Position position) {
+
+        checkPositionDansGrille(position);
         int ligne = position.getLigne();
         int colonne = position.getColonne();
-        checkPositionDansGrille(position);
+
 
         Jeton centre = plateauJetons[ligne][colonne];
         if (centre == null) return 0;
@@ -274,8 +281,8 @@ public class Grille {
             Jeton jTest = plateauJetons[l][c];
             if (jTest != null && jTest.getCouleur() == couleur) {
                 nbAligne++;
-                l--;
-                c--;
+                l++;
+                c++;
             } else {
                 break;
             }
@@ -292,9 +299,11 @@ public class Grille {
      * @throws IllegalArgumentException si la position est hors limite de la grille.
      */
     public int alignementDiagonal2(Position position) {
+
+        checkPositionDansGrille(position);
         int ligne = position.getLigne();
         int colonne = position.getColonne();
-        checkPositionDansGrille(position);
+
 
         Jeton centre = plateauJetons[ligne][colonne];
         if (centre == null) return 0;

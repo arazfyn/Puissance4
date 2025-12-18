@@ -1,10 +1,11 @@
 package business;
+import java.io.Serializable;
 
 /**
  * Représente une position (ligne, colonne) sur la grille.
  * Cette classe est immuable.
  */
-public class Position {
+public class Position implements Serializable {
     private final int ligne;
     private final int colonne;
 

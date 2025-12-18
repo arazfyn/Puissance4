@@ -1,5 +1,6 @@
 package business;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Objects;
  *
  * Un joueur est identifié par sa couleur (JAUNE ou ROUGE) et est immuable.
  */
-public class Joueur {
+public class Joueur implements Serializable {
 
     private final Couleur nom;
 

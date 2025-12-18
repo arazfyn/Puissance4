@@ -29,30 +29,44 @@ public class MainView {
         Puissance4 jeu = new Puissance4();
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("Voulez-vous charger une partie existante ? (O/N)");
+        if (scanner.nextLine().trim().equalsIgnoreCase("O")) {
+            Puissance4 charge = Puissance4.charger("sauvegarde.ser");
+            if (charge != null) {
+                jeu = charge;
+                System.out.println("Partie rechargée !");
+            }
+        }
+
         while (!jeu.gameIsOver()) {
             display(jeu);
 
-            System.out.println("Entrez un numéro de colonne [0 à "+ (Config.NB_COLONNES - 1) +"] ou 'A' pour abandonner: ");
-            String input = scanner.nextLine().trim();
+            // Mise à jour du message pour inclure l'option 'S' [cite: 322]
+            System.out.println("Actions : [0-6] = Colonne, 'A' = Abandonner, 'S' = Sauvegarder");
+            String input = scanner.nextLine().trim().toUpperCase();
 
-            if (input.equalsIgnoreCase("A")) {
-                jeu.abandonner();
+            if (input.equals("A")) {
+                jeu.abandonner(); // [cite: 79, 308]
+                break;
+            } else if (input.equals("S")) {
+                jeu.sauvegarder("sauvegarde.ser");
+                System.out.println("Partie sauvegardée. Fermeture du jeu...");
                 break;
             }
+
             try {
                 int col = Integer.parseInt(input);
-                jeu.jouer(col);
+                jeu.jouer(col); // [cite: 78, 305]
             } catch (NumberFormatException e) {
-                System.out.println("Entrée invalide : entrée 'A' ou un nombre entier.");
+                System.out.println("Entrée invalide. Tapez un chiffre, 'A' ou 'S'.");
             } catch (IllegalArgumentException | Puissance4Exception e) {
-                System.out.println("Erreur : " + e.getMessage());
+                System.out.println("Erreur : " + e.getMessage()); // [cite: 126, 143, 144]
             }
         }
 
         System.out.println();
         display(jeu);
         System.out.println("Fin de la partie.");
-
     }
 }
 

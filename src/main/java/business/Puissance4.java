@@ -1,5 +1,6 @@
 package business;
 
+import java.io.*;
 import java.util.Objects;
 
 /**
@@ -49,6 +50,33 @@ public class Puissance4 {
          */
     public boolean gameIsOver() {
         return puissance4.isPartieFinie();
+    }
+
+    public void sauvegarder(String nomFichier) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nomFichier))) {
+            // On sauvegarde l'objet interne 'puissance4' qui est de type Partie [cite: 74, 295]
+            oos.writeObject(this.puissance4);
+            System.out.println("Partie sauvegardée avec succès dans " + nomFichier);
+        } catch (IOException e) {
+            System.err.println("Erreur lors de la sauvegarde : " + e.getMessage());
+        }
+    }
+
+    /**
+     * Charge une partie depuis un fichier et retourne une nouvelle instance de Puissance4.
+     * @param nomFichier le fichier à lire
+     * @return une instance de Puissance4 restaurée, ou null en cas d'erreur
+     */
+    public static Puissance4 charger(String nomFichier) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nomFichier))) {
+            // Lecture de l'objet Partie sauvegardé [cite: 124, 270]
+            Partie partieChargee = (Partie) ois.readObject();
+            // Utilisation du constructeur de récupération spécifié dans l'analyse [cite: 76, 300]
+            return new Puissance4(partieChargee);
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Erreur lors du chargement : " + e.getMessage());
+            return null;
+        }
     }
 
     public void jouer(int numColonne) {

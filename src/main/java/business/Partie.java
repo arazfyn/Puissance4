@@ -1,4 +1,5 @@
 package business;
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -6,7 +7,7 @@ import java.util.Random;
  * La grille, les deux joueurs, le joueur courant,
  * l'état de fin, l'abandon éventuel, et le gagnant.
  */
-public class Partie {
+public class Partie implements Serializable {
 
     private Grille grille;
     private Joueur[] joueurs;
